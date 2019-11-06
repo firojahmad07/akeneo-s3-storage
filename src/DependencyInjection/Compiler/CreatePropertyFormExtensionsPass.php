@@ -15,29 +15,23 @@ use Symfony\Component\DependencyInjection\Definition;
  */
 class CreatePropertyFormExtensionsPass implements CompilerPassInterface
 {
-    public const FORM_EXTENSIONS = 'formExtensions';
+    private const FORM_EXTENSIONS = 'formExtensions';
 
-    public const FORM_EXTENSION_MODULE = 'module';
-    public const FORM_EXTENSION_PARENT = 'parent';
-    public const FORM_EXTENSION_PARENTS = 'parents';
-    public const FORM_EXTENSION_TARGET_ZONE = 'targetZone';
-    public const FORM_EXTENSION_POSITION = 'position';
+    private const FORM_EXTENSION_MODULE = 'module';
+    private const FORM_EXTENSION_PARENT = 'parent';
+    private const FORM_EXTENSION_PARENTS = 'parents';
+    private const FORM_EXTENSION_TARGET_ZONE = 'targetZone';
+    private const FORM_EXTENSION_POSITION = 'position';
 
-    public const FORM_EXTENSION_CONFIG = 'config';
+    private const FORM_EXTENSION_CONFIG = 'config';
 
-    public const FORM_CONFIG_LABEL = 'label';
-    public const FORM_CONFIG_REQUIRED = 'required';
-    public const FORM_CONFIG_FIELD_NAME = 'fieldName';
-    public const FORM_CONFIG_READONLY = 'readOnly';
+    private const FORM_CONFIG_LABEL = 'label';
+    private const FORM_CONFIG_REQUIRED = 'required';
+    private const FORM_CONFIG_FIELD_NAME = 'fieldName';
 
-    /**
-     * @var string
-     */
     private const SERVICE_ID_EXTENSION_PROVIDER = 'pim_enrich.provider.form_extension';
 
     private const TAG_PROPERTY_PROVIDER = 'ewave_attribute.provider.attribute_property';
-
-    private $formExtensionCode = 'ewave-attribute-edit-form-property-%s-%03d';
     private const FORM_EXTENSION_TEMPLATE = [
         self::FORM_EXTENSION_MODULE      => null,
         self::FORM_EXTENSION_PARENT      => 'pim-attribute-edit-form-properties-common',
@@ -49,6 +43,7 @@ class CreatePropertyFormExtensionsPass implements CompilerPassInterface
             self::FORM_CONFIG_FIELD_NAME => false,
         ],
     ];
+    private $formExtensionCode = 'ewave-attribute-edit-form-property-%s-%03d';
 
     /**
      * @param ContainerBuilder $container

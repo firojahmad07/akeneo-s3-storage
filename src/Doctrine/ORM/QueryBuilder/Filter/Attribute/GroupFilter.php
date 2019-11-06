@@ -10,7 +10,7 @@ use Doctrine\ORM\QueryBuilder;
 use Ewave\Bundle\CoreBundle\Doctrine\ORM\QueryBuilder\Filter\AbstractFilter;
 
 /**
- * Class AttributeGroupFilter
+ * Class GroupFilter
  *
  * @package Ewave\Bundle\AttributeBundle\Doctrine\ORM\QueryBuilder\Filter\Attribute
  */

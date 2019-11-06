@@ -54,7 +54,9 @@ class CsvAttributeExport implements DefaultValuesProviderInterface
         $defaultLocaleCodes = (0 !== count($localesCodes)) ? [$localesCodes[0]] : [];
 
         return [
-            'filePath'              => sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'attribute_export_%job_label%_%datetime%.csv',
+            'filePath'              => sys_get_temp_dir()
+                . DIRECTORY_SEPARATOR
+                . 'attribute_export_%job_label%_%datetime%.csv',
             'delimiter'             => ';',
             'enclosure'             => '"',
             'withHeader'            => true,

@@ -1,7 +1,3 @@
-parameters:
-    # Filled dynamically, @see \Ewave\Bundle\AttributeBundle\DependencyInjection\Compiler\CollectAttributeTypesForExportPass::process
-#    ewave_attribute.attribute_export.attribute_types.entity.choices: []
-
 extensions:
     ewave-attribute-entity-attribute-group-filter:
         module:     ewave-attribute/job/export/entity/edit/content/data/attribute-group

@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace Ewave\Bundle\AttributeBundle\Doctrine\ORM\QueryBuilder\Filter\Attribute;
 
-use Akeneo\Pim\Enrichment\Component\Product\Exception\InvalidOptionException;
 use Akeneo\Pim\Enrichment\Component\Product\Query\Filter\Operators;
-use Akeneo\Pim\Structure\Bundle\Doctrine\ORM\Repository\AttributeGroupRepository;
 use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
 use Doctrine\ORM\QueryBuilder;
 use Ewave\Bundle\CoreBundle\Doctrine\ORM\QueryBuilder\Filter\AbstractFilter;

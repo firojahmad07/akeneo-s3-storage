@@ -3,7 +3,7 @@ services:
         class: 'Akeneo\Platform\Bundle\ImportExportBundle\Provider\Form\JobInstanceFormProvider'
         arguments:
             -
-                ewave_csv_attribute_export: ewave-attribute-job-instance-csv-attribute-export
+                ewave_csv_attribute_export:  ewave-attribute-job-instance-csv-attribute-export
                 ewave_xlsx_attribute_export: ewave-attribute-job-instance-xlsx-attribute-export
         tags:
             - { name: pim_enrich.provider.form }

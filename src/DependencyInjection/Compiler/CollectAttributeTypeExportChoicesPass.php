@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Ewave\Bundle\AttributeBundle\DependencyInjection\Compiler;
 
-use Ewave\Bundle\AttributeBundle\Property\PropertyConfig;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -15,20 +14,18 @@ use Symfony\Component\DependencyInjection\Definition;
  */
 class CollectAttributeTypeExportChoicesPass implements CompilerPassInterface
 {
-    /**
-     * @var string
-     */
     private const EXPORT_PARAMETER_ATTRIBUTE_TYPES = 'ewave_attribute.attribute_export.attribute_types.entity.choices';
-
     private const ATTRIBUTE_TYPE_REGISTRY_TAG = 'pim_catalog.attribute_type';
 
     /**
      * Initial attribute registration
-     * @see \Akeneo\Pim\Structure\Bundle\DependencyInjection\Compiler\RegisterAttributeTypePass::process
-     *                                                                                                  
+     *
      * @param ContainerBuilder $container
      *
      * @throws \Exception
+     *
+     * @see \Akeneo\Pim\Structure\Bundle\DependencyInjection\Compiler\RegisterAttributeTypePass::process
+     *
      */
     public function process(ContainerBuilder $container)
     {

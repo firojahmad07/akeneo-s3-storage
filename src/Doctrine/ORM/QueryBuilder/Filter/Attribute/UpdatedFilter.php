@@ -89,14 +89,14 @@ class UpdatedFilter extends AbstractFilter
                 break;
             case Operators::SINCE_LAST_N_DAYS:
                 $value = (int)$value;
-                $createdAt = new \DateTime(sprintf('%s days ago', $value), DatetimeHelper::getServerTimezone());
-                $this->applyFilter($qb, $field, Operators::GREATER_THAN, $createdAt, $context);
+                $updated = new \DateTime(sprintf('%s days ago', $value), DatetimeHelper::getServerTimezone());
+                $this->applyFilter($qb, $field, Operators::GREATER_THAN, $updated, $context);
                 break;
             case Operators::SINCE_LAST_JOB:
                 $lastCompletedJobExecution = $this->getLastCompletedJobExecution($value);
                 if ($lastCompletedJobExecution) {
-                    $createdAt = $lastCompletedJobExecution->getStartTime();
-                    $this->applyFilter($qb, $field, Operators::GREATER_THAN, $createdAt, $context);
+                    $updated = $lastCompletedJobExecution->getStartTime();
+                    $this->applyFilter($qb, $field, Operators::GREATER_THAN, $updated, $context);
                 }
                 break;
             default:

@@ -4,11 +4,12 @@ declare(strict_types=1);
 namespace Ewave\Bundle\AttributeBundle\Doctrine\ORM\QueryBuilder\Filter\Attribute;
 
 use Akeneo\Pim\Enrichment\Component\Product\Query\Filter\Operators;
+use Akeneo\Tool\Component\StorageUtils\Exception\InvalidPropertyTypeException;
 use Doctrine\ORM\QueryBuilder;
 use Ewave\Bundle\CoreBundle\Doctrine\ORM\QueryBuilder\Filter\AbstractFilter;
 
 /**
- * Class AttributeLabelFilter
+ * Class LabelFilter
  *
  * @package Ewave\Bundle\AttributeBundle\Doctrine\ORM\QueryBuilder\Filter\Attribute
  */
@@ -73,8 +74,8 @@ class LabelFilter extends AbstractFilter
     }
 
     /**
-     * @param string $operator
-     * @param string $field
+     * @param string                 $operator
+     * @param string                 $field
      * @param string|array|\DateTime $value
      *
      * @return AbstractFilter
@@ -85,9 +86,6 @@ class LabelFilter extends AbstractFilter
             case Operators::ALL_COMPLETE:
             case Operators::AT_LEAST_INCOMPLETE:
             case Operators::ALL_INCOMPLETE:
-                if ($value) {
-                    //                    throw InvalidPropertyTypeException::numericExpected(($field, static::class, $value);
-                }
                 break;
             default:
                 $this->throwOperatorNotSupportedException($operator, $field);

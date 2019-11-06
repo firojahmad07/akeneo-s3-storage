@@ -54,7 +54,9 @@ class XlsxAttributeExport implements DefaultValuesProviderInterface
         $defaultLocaleCodes = (0 !== count($localesCodes)) ? [$localesCodes[0]] : [];
 
         return [
-            'filePath'              => sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'attribute_export_%job_label%_%datetime%.xlsx',
+            'filePath'              => sys_get_temp_dir()
+                . DIRECTORY_SEPARATOR
+                . 'attribute_export_%job_label%_%datetime%.xlsx',
             'withHeader'            => true,
             'linesPerFile'          => 10000,
             'user_to_notify'        => null,
