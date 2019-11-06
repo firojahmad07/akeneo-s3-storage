@@ -1,0 +1,49 @@
+batch_jobs:
+    ewave_csv_attribute_export:
+        label: Attribute export in CSV
+        export:
+            label: Attribute export
+    ewave_xlsx_attribute_export:
+        label: Attribute export in XLSX
+        export:
+            label: Attribute export
+
+ewave_attribute:
+    form:
+        job_instance:
+            tab:
+                content:
+                    data:
+                        title: Filter the attributes
+                        group:
+                            title: Attribute group
+                            help:  Group conditions of exported attribute
+                            operators:
+                                "ALL":  No group condition
+                                "IN": In list
+                                "=":  Is equal to
+                        type:
+                            title: Attribute type
+                            help:  Type conditions of exported attribute
+                            operators:
+                                "ALL":  No type condition
+                                "IN": In list
+                                "=":  Is equal to
+                        updated:
+                            title: Time condition
+                            operators:
+                                "ALL": No date condition
+                                "SINCE LAST N DAYS": Updated attributes over the last n days (e.g. 6)
+                                ">": Updated attributes since this date
+                                "SINCE LAST JOB": Updated attributes since last export
+                        label:
+                            title: Attribute label
+                            help:  Label conditions of exported attribute
+                            operators:
+                                "ALL":  No label condition
+                                "ALL COMPLETE": Not empty on all selected locales
+                                "AT LEAST INCOMPLETE": Empty on at least one selected locale
+                                "ALL INCOMPLETE": Empty on all selected locales
+                        identifier:
+                            title: Attribute code
+                            help:  Use the attribute codes to export separated by commas, spaces or line breaks

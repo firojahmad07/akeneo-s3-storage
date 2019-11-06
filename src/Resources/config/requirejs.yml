@@ -1,0 +1,13 @@
+config:
+    paths:
+        # JS modules
+        ewave-attribute/job/export/entity/edit/content/data:                      ewaveattribute/js/job/export/entity/edit/content/data
+        ewave-attribute/job/export/entity/edit/content/data/date:                 ewaveattribute/js/job/export/entity/edit/content/data/date
+        ewave-attribute/job/export/entity/edit/content/data/attribute-type:       ewaveattribute/js/job/export/entity/edit/content/data/attribute-type
+        ewave-attribute/job/export/entity/edit/content/data/attribute-group:      ewaveattribute/js/job/export/entity/edit/content/data/attribute-group
+        ewave-attribute/job/export/entity/edit/content/data/attribute-label:      ewaveattribute/js/job/export/entity/edit/content/data/attribute-label
+
+        # Templates
+        ewave-attribute/template/job/export/entity/edit/content/data:             ewaveattribute/templates/job/export/entity/edit/content/data.html
+        ewave-attribute/template/job/export/entity/edit/content/data/date:        ewaveattribute/templates/job/export/entity/edit/content/data/date.html
+        ewave-attribute/template/job/export/entity/edit/content/data/select:      ewaveattribute/templates/job/export/entity/edit/content/data/select.html

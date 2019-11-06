@@ -5,7 +5,7 @@
 #### Step 0: Install dependencies
 The bundles which have to be installed and configured before continuing:
 
-1. 
+1. `ewave/core-bundle:^3.4.0`
 
 #### Step 1: Add VCS repositories to the `composer.json`
 
@@ -47,11 +47,8 @@ class AppKernel extends Kernel
 
 
 
-
-
-
 ## Useful commands
 https://wiki.ewave.com/display/LEGO/Akeneo+Developer+Notes
 
 ## Manual
-https://wiki.ewave.com/display/LEGO/Asset+Bundle
+https://wiki.ewave.com/display/LEGO/Attribute+Bundle

@@ -1,0 +1,9 @@
+parameters:
+    ewave_attribute.property.property_config.class:          Ewave\Bundle\AttributeBundle\Property\PropertyConfig
+    ewave_attribute.property.provider.property_config.class: Ewave\Bundle\AttributeBundle\Property\Provider\PropertyConfigProvider
+
+services:
+    ewave_attribute.property.provider.property_config:
+        class: '%ewave_attribute.property.provider.property_config.class%'
+        arguments:
+            - !tagged ewave_attribute.provider.attribute_property

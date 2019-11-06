@@ -1,0 +1,23 @@
+services:
+    ### Attribute
+    ewave_attribute.step.csv_attribute.export:
+        class: '%pim_connector.step.item_step.class%'
+        arguments:
+            - 'export'
+            - '@event_dispatcher'
+            - '@akeneo_batch.job_repository'
+            - '@ewave_attribute.reader.database.attribute_reader'
+            - '@pim_connector.processor.normalization.attribute'
+            - '@pim_connector.writer.file.csv_attribute'
+            - '%pim_job_product_batch_size%'
+
+    ewave_attribute.step.xlsx_attribute.export:
+        class: '%pim_connector.step.item_step.class%'
+        arguments:
+            - 'export'
+            - '@event_dispatcher'
+            - '@akeneo_batch.job_repository'
+            - '@ewave_attribute.reader.database.attribute_reader'
+            - '@pim_connector.processor.normalization.attribute'
+            - '@pim_connector.writer.file.xlsx_attribute'
+            - '%pim_job_product_batch_size%'

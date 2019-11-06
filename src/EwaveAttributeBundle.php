@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace Ewave\Bundle\AttributeBundle;
 
-use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass;
+use Ewave\Bundle\AttributeBundle\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -13,5 +14,12 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class EwaveAttributeBundle extends Bundle
 {
-
+    /**
+     * {@inheritdoc}
+     */
+    public function build(ContainerBuilder $container)
+    {
+        $container->addCompilerPass(new Compiler\CollectAttributeTypeExportChoicesPass());
+        $container->addCompilerPass(new Compiler\CreatePropertyFormExtensionsPass());
+    }
 }
