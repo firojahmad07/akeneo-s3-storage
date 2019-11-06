@@ -108,7 +108,16 @@ services:
             - '%ewave_attribute.property_config.is_similar_product_comparison%'
         tags:
             - { name: ewave_attribute.provider.attribute_property }
+```
 
+Add missing translations for newly created properties in jsmessages.*.yml
+```yaml
+ewave_attribute:
+    entity:
+        attribute:
+            property:
+                is_similar_product_comparison:
+                    label: Is similar product comparison
 ```
 
 ## Useful commands
