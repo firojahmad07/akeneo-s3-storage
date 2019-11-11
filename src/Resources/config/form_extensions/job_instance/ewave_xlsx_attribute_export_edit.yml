@@ -109,7 +109,7 @@ extensions:
 
     ewave-attribute-job-instance-xlsx-attribute-export-edit-properties-lines-per-file:
         module:     pim/job/common/edit/field/text
-        parent:     pim-job-instance-xlsx-base-export-edit-global
+        parent:     ewave-attribute-job-instance-xlsx-attribute-export-edit-global
         position:   130
         targetZone: properties
         config:
