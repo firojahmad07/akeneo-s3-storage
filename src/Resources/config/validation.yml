@@ -1,0 +1,4 @@
+Akeneo\Pim\Structure\Component\Model\Attribute:
+    constraints:
+        -
+            Ewave\Bundle\AttributeBundle\Validator\Constraints\AttributeProperties: ~

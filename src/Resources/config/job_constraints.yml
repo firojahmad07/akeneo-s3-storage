@@ -1,0 +1,21 @@
+parameters:
+    ewave_attribute.job_parameters.constraint_collection_provider.csv_attribute_export.class:  Ewave\Bundle\AttributeBundle\JobParameters\ConstraintCollectionProvider\CsvAttributeExport
+    ewave_attribute.job_parameters.constraint_collection_provider.xlsx_attribute_export.class: Ewave\Bundle\AttributeBundle\JobParameters\ConstraintCollectionProvider\XlsxAttributeExport
+
+services:
+    # Validation constraints for Exports ------------------------------------------------------------------------------
+    ewave_attribute.job_parameters.constraint_collection_provider.csv_attribute_export:
+        class: '%ewave_attribute.job_parameters.constraint_collection_provider.csv_attribute_export.class%'
+        arguments:
+            -
+                - 'ewave_csv_attribute_export'
+        tags:
+            - { name: akeneo_batch.job.job_parameters.constraint_collection_provider }
+
+    ewave_attribute.job_parameters.constraint_collection_provider.xlsx_attribute_export:
+        class: '%ewave_attribute.job_parameters.constraint_collection_provider.xlsx_attribute_export.class%'
+        arguments:
+            -
+                - 'ewave_xlsx_attribute_export'
+        tags:
+            - { name: akeneo_batch.job.job_parameters.constraint_collection_provider }

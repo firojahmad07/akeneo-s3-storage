@@ -1,0 +1,9 @@
+batch_jobs:
+    ewave_csv_attribute_export:
+        label: Attribute export in CSV
+        export:
+            label: Attribute export
+    ewave_xlsx_attribute_export:
+        label: Attribute export in XLSX
+        export:
+            label: Attribute export

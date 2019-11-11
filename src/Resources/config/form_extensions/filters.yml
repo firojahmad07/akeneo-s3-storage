@@ -1,0 +1,40 @@
+extensions:
+    ewave-attribute-entity-attribute-group-filter:
+        module:     ewave-attribute/job/export/entity/edit/content/data/attribute-group
+        config:
+            label:          ewave_attribute.form.job_instance.tab.content.data.group.title
+            tooltip:        ewave_attribute.form.job_instance.tab.content.data.group.help
+            choiceUrl:      pim_enrich_attribute_rest_index
+            operators:
+                - ALL
+                - "IN"
+
+    ewave-attribute-entity-attribute-type-filter:
+        module:     ewave-attribute/job/export/entity/edit/content/data/attribute-type
+        config:
+            label:          ewave_attribute.form.job_instance.tab.content.data.type.title
+            tooltip:        ewave_attribute.form.job_instance.tab.content.data.type.help
+            options:        '%ewave_attribute.attribute_export.attribute_types.entity.choices%'
+            operators:
+                - ALL
+                - "IN"
+
+    ewave-attribute-entity-updated-filter:
+        module: ewave-attribute/job/export/entity/edit/content/data/date
+        config:
+            operators:
+                - ALL
+                - SINCE LAST N DAYS
+                - ">"
+                - SINCE LAST JOB
+
+    ewave-attribute-entity-attribute-label-filter:
+        module:     ewave-attribute/job/export/entity/edit/content/data/attribute-label
+        config:
+            label:          ewave_attribute.form.job_instance.tab.content.data.label.title
+            tooltip:        ewave_attribute.form.job_instance.tab.content.data.label.help
+            operators:
+                - "ALL"
+                - "ALL COMPLETE"
+                - "AT LEAST INCOMPLETE"
+                - "ALL INCOMPLETE"
