@@ -28,10 +28,24 @@ class CreatePropertyFormExtensionsPass implements CompilerPassInterface
     private const FORM_CONFIG_LABEL = 'label';
     private const FORM_CONFIG_REQUIRED = 'required';
     private const FORM_CONFIG_FIELD_NAME = 'fieldName';
+    private const FORM_CONFIG_TEMPLATE = 'template';
 
     private const SERVICE_ID_EXTENSION_PROVIDER = 'pim_enrich.provider.form_extension';
 
     private const TAG_PROPERTY_PROVIDER = 'ewave_attribute.provider.attribute_property';
+
+    private const FORM_EXTENSION_CONTAINER_TEMPLATE = [
+        self::FORM_EXTENSION_MODULE      => 'pim/common/simple-view',
+        self::FORM_EXTENSION_PARENT      => 'pim-attribute-edit-form-properties-common',
+        self::FORM_EXTENSION_POSITION    => 1000,
+        self::FORM_EXTENSION_TARGET_ZONE => 'content',
+        self::FORM_EXTENSION_CONFIG      => [
+            self::FORM_CONFIG_TEMPLATE      => 'ewave-attribute/template/attribute/form/edit/property-container',
+        ],
+    ];
+
+    private $formExtensionContainerCode = 'ewave-attribute-edit-form-property-form-container-%s-%03d';
+
     private const FORM_EXTENSION_TEMPLATE = [
         self::FORM_EXTENSION_MODULE      => null,
         self::FORM_EXTENSION_PARENT      => 'pim-attribute-edit-form-properties-common',
@@ -98,7 +112,7 @@ class CreatePropertyFormExtensionsPass implements CompilerPassInterface
 
         $propertyConfig[PropertyConfig::REQUIRED] = $propertyConfig[PropertyConfig::REQUIRED] ?? false;
 
-        $formExtensions = [];
+        $newFormExtensions = [];
         $extensions = $propertyConfig[self::FORM_EXTENSIONS];
         $extensionIndex = 0;
         foreach ($extensions as $extension) {
@@ -123,20 +137,48 @@ class CreatePropertyFormExtensionsPass implements CompilerPassInterface
             if ($parents) {
                 $parents = array_filter(array_map('trim', $parents));
                 foreach ($parents as $parent) {
-                    $formExtension[self::FORM_EXTENSION_PARENT] = $parent;
-                    $extensionCode = sprintf($this->formExtensionCode, $propertyCode, $extensionIndex);
-                    $formExtensions[$extensionCode] = $formExtension;
+                    $newFormExtensions = array_merge($newFormExtensions, $this->generateExtensions($formExtension, $propertyCode, $extensionIndex, $parent));
                     $extensionIndex++;
                 }
             } else {
-                $extensionCode = sprintf($this->formExtensionCode, $propertyCode, $extensionIndex);
-                $formExtensions[$extensionCode] = $formExtension;
+                $newFormExtensions = array_merge($newFormExtensions, $this->generateExtensions($formExtension, $propertyCode, $extensionIndex));
                 $extensionIndex++;
             }
         }
 
-        $propertyConfig[self::FORM_EXTENSIONS] = $formExtensions;
+        $propertyConfig[self::FORM_EXTENSIONS] = $newFormExtensions;
 
         return $propertyConfig;
+    }
+
+    private function generateExtensions(array $formExtension, $propertyCode, int $extensionIndex, $parent = null) {
+
+        $formExtensions = [];
+
+        if (!$parent) {
+            $parent = $formExtension[self::FORM_EXTENSION_PARENT];
+        }
+        $extensionCode = sprintf($this->formExtensionCode, $propertyCode, $extensionIndex);
+        if ($parent === 'pim-attribute-edit-form-properties-common') {
+            $formExtensions[$extensionCode] = $formExtension;
+        } else {
+            //create container for property fields
+            $containerExtensionCode = sprintf($this->formExtensionContainerCode, $propertyCode, $extensionIndex);
+            $containerFormExtension = self::FORM_EXTENSION_CONTAINER_TEMPLATE;
+            if ($parent) {
+                $containerFormExtension[self::FORM_EXTENSION_PARENT] = $parent;
+            }
+            $containerFormExtension[self::FORM_EXTENSION_POSITION] = $formExtension[self::FORM_EXTENSION_POSITION];
+            $containerFormExtension[self::FORM_EXTENSION_TARGET_ZONE] = $formExtension[self::FORM_EXTENSION_TARGET_ZONE];
+            $formExtensions[$containerExtensionCode] = $containerFormExtension;
+
+            $formExtension[self::FORM_EXTENSION_PARENT] = $containerExtensionCode;
+            $formExtension[self::FORM_EXTENSION_POSITION] = 100;
+            $formExtension[self::FORM_EXTENSION_TARGET_ZONE] = 'content';
+
+            $formExtensions[$extensionCode] = $formExtension;
+        }
+
+        return $formExtensions;
     }
 }

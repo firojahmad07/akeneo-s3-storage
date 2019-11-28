@@ -11,3 +11,5 @@ config:
         ewave-attribute/template/job/export/entity/edit/content/data:             ewaveattribute/templates/job/export/entity/edit/content/data.html
         ewave-attribute/template/job/export/entity/edit/content/data/date:        ewaveattribute/templates/job/export/entity/edit/content/data/date.html
         ewave-attribute/template/job/export/entity/edit/content/data/select:      ewaveattribute/templates/job/export/entity/edit/content/data/select.html
+
+        ewave-attribute/template/attribute/form/edit/property-container:          ewaveattribute/templates/attribute/form/edit/property-container.html
