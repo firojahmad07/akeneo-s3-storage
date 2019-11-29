@@ -54,8 +54,8 @@ This adds the boolean property to all attributes. This one will be displayed on 
 parameters:
     ...
     ewave_attribute.property_config.is_similar_product_comparison:
-        propertyCode:   is_similar_product_comparison
-        propertyType:   boolean
+        propertyCode: is_similar_product_comparison
+        propertyType: boolean
         attributeTypes:
             - 'pim_catalog_date'
             - 'pim_catalog_file'
@@ -77,7 +77,7 @@ parameters:
         default: false
         formExtensions:
             -
-                module:     pim/form/common/fields/boolean
+                module: pim/form/common/fields/boolean
                 parents:
                     - 'pim-attribute-form-date'
                     - 'pim-attribute-form-file'
@@ -122,7 +122,7 @@ parameters:
             - 'pim_reference_data_simpleselect'
             - 'akeneo_reference_entity_collection'
             - 'akeneo_reference_entity'
-        default: false
+        default: number #This is the default value. You need to specify one option from choices: number,string,date, valuelist or or leave blank 
         formExtensions:
             -
                 module: pim/form/common/fields/select
@@ -175,7 +175,7 @@ parameters:
             - 'pim_reference_data_simpleselect'
             - 'akeneo_reference_entity_collection'
             - 'akeneo_reference_entity'
-        default: false
+        default: value example #This is the default value. Can be left blank
         formExtensions:
             -
                 module: pim/form/common/fields/text
