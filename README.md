@@ -149,10 +149,10 @@ parameters:
                     label: ewave_attribute.entity.attribute.property.feature_type_value.label
                     required: false
                     choices:
-                        number: ewave_attribute.entity.attribute.property.feature_type_value.number
-                        string: ewave_attribute.entity.attribute.property.feature_type_value.string
-                        date: ewave_attribute.entity.attribute.property.feature_type_value.date
-                        valuelist: ewave_attribute.entity.attribute.property.feature_type_value.valuelist
+                        number: ewave_attribute.entity.attribute.property.feature_type_value.choices.number
+                        string: ewave_attribute.entity.attribute.property.feature_type_value.choices.string
+                        date: ewave_attribute.entity.attribute.property.feature_type_value.choices.date
+                        valuelist: ewave_attribute.entity.attribute.property.feature_type_value.choices.valuelist
 
     ewave_attribute.property_config.feature_type_value_text:
         propertyCode: feature_type_value_text
@@ -236,10 +236,11 @@ ewave_attribute:
                     label: Is similar product comparison
                 feature_type_value:
                     label: Feature type value
-                    number: Number
-                    string: String
-                    date: Date
-                    valuelist: Valuelist
+                    choices:
+                        number: Number
+                        string: String
+                        date: Date
+                        valuelist: Valuelist
                 feature_type_value_text:
                     label: Feature type value text
 
