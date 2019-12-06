@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace Ewave\Bundle\AttributeBundle\EventSubscriber;
 
 use Akeneo\Pim\Structure\Component\Model\AttributeInterface;
+use Akeneo\Tool\Component\Batch\Model\StepExecution;
 use Ewave\Bundle\AttributeBundle\Property\PropertyConfig;
 use Ewave\Bundle\AttributeBundle\Property\Provider\PropertyConfigProvider;
+use Ewave\Bundle\CoreBundle\Helper\JobConnectorHelper;
 use Ewave\Bundle\CustomEventsBundle\Event\NormalizerEvent;
 use Ewave\Bundle\CustomEventsBundle\StorageUtils\StorageEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -81,6 +83,32 @@ class AttributeNormalizerSubscriber implements EventSubscriberInterface
         return $event->getSourceData() instanceof AttributeInterface
             && ('standard' === $event->getFormat() || '' === $event->getFormat())
             && is_array($event->getNormalizedData())
+            && !$this->isDefaultAkeneoJob($event)
             && $this->propertyConfigProvider->getAttributePropertyConfigs($event->getSourceData());
+    }
+
+    /**
+     * @param NormalizerEvent $event
+     *
+     * @return bool
+     */
+    protected function isDefaultAkeneoJob(NormalizerEvent $event)
+    {
+        /**
+         * @var StepExecution $stepExecution
+         */
+        $context = $event->getContext();
+        $stepExecution = $context[JobConnectorHelper::CONTEXT_KEY_STEP_EXECUTION] ?? null;
+        if (!$stepExecution) {
+            return false;
+        }
+
+        $connectorName = $stepExecution->getJobExecution()->getJobInstance()->getConnector();
+
+        if (preg_match('/Akeneo.*Connector/', $connectorName)) {
+            return true;
+        }
+
+        return false;
     }
 }
