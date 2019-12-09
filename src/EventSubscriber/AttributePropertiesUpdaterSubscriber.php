@@ -75,6 +75,9 @@ class AttributePropertiesUpdaterSubscriber implements EventSubscriberInterface
             $propertyValue = $attribute->getProperty($propertyCode);
             if (array_key_exists($propertyCode, $attributeData)) {
                 $propertyValue = $attributeData[$propertyCode];
+                if ($newAttribute && $propertyValue === null) {
+                    $propertyValue = $propertyConfig->getDefaultValue();
+                }
                 unset($attributeData[$propertyCode]);
             } elseif (null === $propertyValue && null !== $propertyConfig->getDefaultValue()) {
                 $propertyValue = $propertyConfig->getDefaultValue();
