@@ -101,6 +101,12 @@ class AttributePropertiesValidator extends ConstraintValidator
                     $constraints[] = new Constraints\NotBlank();
                 }
                 break;
+            case PropertyHelper::TYPE_ARRAY:
+                $constraints[] = new Constraints\Type('array');
+                if ($propertyConfig->isRequired()) {
+                    $constraints[] = new Constraints\NotBlank();
+                }
+                break;
             default:
         }
 
