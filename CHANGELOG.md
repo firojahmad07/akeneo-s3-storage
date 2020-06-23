@@ -13,3 +13,7 @@
     * [#337961](https://tp.ewave.com/337961) -- [340035] [Project: Ideal-Nz] As a system, I want to have attribute properties and the default "Attribute export in CSV" to be customized.
     * [#343858](https://tp.ewave.com/343858) -- [Project: Ideal-Nz] As a system, I want 2 new attribute property types to be added to the list of possible property types.
 
+## 3.2.0
+* New features:
+    * [#385215](https://tp.ewave.com/385215) -- [340035] As an admin I want to lock a locale and allow updates only to one.
+

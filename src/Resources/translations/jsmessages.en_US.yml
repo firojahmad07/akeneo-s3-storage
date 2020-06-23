@@ -47,3 +47,10 @@ ewave_attribute:
                         identifier:
                             title: Attribute code
                             help:  Use the attribute codes to export separated by commas, spaces or line breaks
+    entity:
+        attribute:
+            property:
+                read_only_locales:
+                    label: Read only for locales
+                is_localized_read_only:
+                    label: Enable localized read only

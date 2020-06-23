@@ -1,0 +1,47 @@
+parameters:
+    ewave_attribute.property_config.is_localized_read_only:
+        propertyCode: is_localized_read_only
+        propertyType: boolean
+        attributeTypes: ~
+        default: false
+        formExtensions:
+            -
+                module: ewave-attribute/attribute-edit-form/properties/is-localized-read-only
+                parent: pim-attribute-edit-form-properties-common
+                targetZone: content
+                position:  96
+                config:
+                    fieldName: is_localized_read_only
+                    label: ewave_attribute.entity.attribute.property.is_localized_read_only.label
+                    required: false
+
+    ewave_attribute.property_config.read_only_locales:
+        propertyCode: read_only_locales
+        propertyType: array
+        attributeTypes: ~
+        formExtensions:
+            -
+                module: ewave-attribute/form/common/fields/read-only-locales
+                parent: pim-attribute-edit-form-properties-common
+                targetZone: content
+                position:  97
+                config:
+                    fieldName: read_only_locales
+                    label: ewave_attribute.entity.attribute.property.read_only_locales.label
+                    required: false
+                    isMultiple: true
+
+services:
+    ewave_attribute.property.property_config.read_only_locales:
+        class: '%ewave_attribute.property.property_config.class%'
+        arguments:
+            - '%ewave_attribute.property_config.read_only_locales%'
+        tags:
+            - { name: ewave_attribute.provider.attribute_property }
+
+    ewave_attribute.property.property_config.is_localized_read_only:
+        class: '%ewave_attribute.property.property_config.class%'
+        arguments:
+            - '%ewave_attribute.property_config.is_localized_read_only%'
+        tags:
+            - { name: ewave_attribute.provider.attribute_property }
