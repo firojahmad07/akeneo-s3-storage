@@ -17,3 +17,7 @@
 * New features:
     * [#385215](https://tp.ewave.com/385215) -- [340035] As an admin I want to lock a locale and allow updates only to one.
 
+## 3.2.1
+* Bug fixing:
+    * [#397363](https://tp.ewave.com/397363) -- [385215][340035] [Project: TRU] Blank option displayed after switching on 'Enable localized read only' first time
+

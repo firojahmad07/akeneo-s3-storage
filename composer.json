@@ -1,6 +1,6 @@
 {
     "name": "ewave/attribute-bundle",
-    "version": "3.2.0",
+    "version": "3.2.1",
     "type": "symfony-bundle",
     "description": "Ewave Attribute Bundle",
     "authors": [
