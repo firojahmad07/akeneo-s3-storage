@@ -18,11 +18,11 @@ extensions:
             logout:      pim_menu.user.logout
 
     ewave-attribute-job-instance-xlsx-attribute-export-edit-breadcrumbs:
-        module:     pim/common/breadcrumbs
+        module:     pim/job/common/breadcrumb/breadcrumb
         parent:     ewave-attribute-job-instance-xlsx-attribute-export-edit
         targetZone: breadcrumbs
         config:
-            tab: pim-menu-exports
+            isEdit: true
 
     ewave-attribute-job-instance-xlsx-attribute-export-edit-cache-invalidator:
         module:   pim/cache-invalidator
@@ -97,7 +97,7 @@ extensions:
             readOnly:  false
 
     ewave-attribute-job-instance-xlsx-attribute-export-edit-properties-file-path:
-        module:     pim/job/common/edit/field/text
+        module:     pim/job/common/edit/field/file-path
         parent:     ewave-attribute-job-instance-xlsx-attribute-export-edit-global
         position:   120
         targetZone: properties
@@ -161,6 +161,16 @@ extensions:
                 success:  pim_import_export.entity.job_instance.flash.delete.success
                 failed:   error.removing.job_instance
             redirect: pim_importexport_export_profile_index
+
+    ewave-attribute-job-instance-xlsx-base-export-edit-duplicate:
+        module: pim/job/common/duplicate/duplicate
+        parent: ewave-attribute-job-instance-xlsx-attribute-export-edit-secondary-actions
+        targetZone: secondary-actions
+        aclResourceId: pim_importexport_export_profile_create
+        position: 80
+        config:
+            subTitle: pim_menu.tab.exports
+            editRoute: pim_importexport_export_profile_edit
 
     ewave-attribute-job-instance-xlsx-attribute-export-edit-save-buttons:
         module:     pim/form/common/save-buttons

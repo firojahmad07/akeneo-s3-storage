@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Ewave\Bundle\AttributeBundle\JobParameters\ConstraintCollectionProvider;
 
-use Akeneo\Pim\Enrichment\Component\Product\Validator\Constraints\WritableDirectory;
 use Akeneo\Tool\Component\Batch\Job\JobInterface;
 use Akeneo\Tool\Component\Batch\Job\JobParameters\ConstraintCollectionProviderInterface;
+use Akeneo\Tool\Component\StorageUtils\Validator\Constraints\WritableDirectory;
 use Symfony\Component\Validator\Constraints\Choice;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -78,7 +78,7 @@ class CsvAttributeExport implements ConstraintCollectionProviderInterface
                     ),
                     'user_to_notify'        => new Type('string'),
                     'is_user_authenticated' => new Type('bool'),
-                    'filters'               => new Collection([]),
+                    'filters'               => new Collection([],null,null,true),
                 ],
             ]
         );
