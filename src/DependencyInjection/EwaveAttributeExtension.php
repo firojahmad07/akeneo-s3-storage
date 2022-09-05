@@ -31,11 +31,13 @@ class EwaveAttributeExtension extends Extension
         $loader->load('job_constraints.yml');
         $loader->load('job_defaults.yml');
         $loader->load('jobs.yml');
+        $loader->load('normalizers.yml');        
         $loader->load('parameters.yml');
         $loader->load('providers.yml');
         $loader->load('query_builders.yml');
         $loader->load('readers.yml');
         $loader->load('steps.yml');
+        $loader->load('updaters.yml');
         $loader->load('validators.yml');
     }
 }

@@ -1,0 +1,10 @@
+extensions:
+    ewave-attribute-edit-custom-properties-code:
+        module: ewave-attribute/attribute/attribute-properties
+        parent: pim-attribute-edit-form-properties-common
+        targetZone: content
+        position: 200
+        config:
+            fieldName: settings
+            label: pim_enrich.entity.attribute.property.localizable
+            readOnly: false

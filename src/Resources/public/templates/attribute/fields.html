@@ -1,0 +1,35 @@
+<% _.each(attributeProperties, function(attributeProperty) { %>
+    <% if(_.contains(attributeProperty.attributeTypes, formdata.type)) { %>
+        <div class="AknFieldContainer">
+            <div class="AknFieldContainer-header">
+                <label class="AknFieldContainer-label control-label" for="pim_enrich_form_<%- attributeProperty.config.fieldName %>">
+                <%- __(attributeProperty.config.label) %>
+                </label>
+            </div>
+            <div class="AknFieldContainer-inputContainer">
+                <% if(attributeProperty.propertyType == 'boolean') { %>
+                    <div class="switch switch-small" data-on-label="Yes" data-off-label="No">
+                        <input id="pim_enrich_form_<%- attributeProperty.config.fieldName %>" type="checkbox" name="<%- attributeProperty.config.fieldName %>"
+                        <% if( true == formdata[attributeProperty.config.fieldName]) { %> checked <% } %>
+                        >
+                    </div>
+                <% } %>
+                <% if(attributeProperty.propertyType == 'text') { %>
+                    <input type="text" name="<%- attributeProperty.config.fieldName %>" class="AknTextField"  
+                    value="<%- formdata[attributeProperty.config.fieldName] %>">
+                <% } %>
+                <% if(attributeProperty.propertyType == 'select') { %>
+                    <select name="<%- attributeProperty.config.fieldName %>" class="select2-container  select2">
+                        <% selectVal = formdata[attributeProperty.config.fieldName] %>
+                        <option value=""><%- _.__('Select Attribute') %></option>                          
+                        <% _.each(attributeProperty.config.choices, function(key, value) { %>
+                                <option value="<%- value %>" <% if(selectVal == value) { %> selected <% } %>>
+                                    <%- __(key)  %>
+                                </option>
+                        <% }); %>
+                    </select>            
+                <% } %>
+            </div>
+        </div>
+    <% } %>
+<% }) %>
