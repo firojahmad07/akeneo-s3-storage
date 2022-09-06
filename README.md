@@ -48,7 +48,7 @@ class AppKernel extends Kernel
 #### Step 4: Configure the bundle in application
 
 Configure the required properties in project side configs as in the following example:
-This adds the boolean property to all attributes. This one will be displayed on all attribute pages before attribute specific section.
+This configuration you can add  {bundlePath}/Resource/config/ewave/AttributeProperty/parameters.yml.
  
 ```yaml
 parameters:
