@@ -6,7 +6,6 @@ namespace Ewave\Bundle\AttributeBundle\Traits;
  */
 trait AttributeConfigTrait
 {
-
     /**
      * set custom properties
      */

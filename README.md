@@ -5,7 +5,7 @@
 #### Step 0: Install dependencies
 The bundles which have to be installed and configured before continuing:
 
-1. `ewave/core-bundle:^3.4.0`
+1. `ewave/core-bundle:^6.0.0`
 
 #### Step 1: Add VCS repositories to the `composer.json`
 
@@ -28,21 +28,14 @@ composer require ewave/attribute-bundle:^3
 
 #### Step 3: Register the bundle in application
 
-Update list of bundles in your `app/AppKernel.php` as in the following example:
+Add to config/bundles.php:
 
-```php
-<?php
-class AppKernel extends Kernel
-{
-    public function registerProjectBundles()
-    {
-        return [
-            //...
-            new Ewave\Bundle\AttributeBundle\EwaveAttributeBundle()
-            //...
-        ];
-    }
-}
+```
+  return [
+        // Add your bundles here with the associated env.
+        // Ex:
+        Ewave\Bundle\AttributeBundle\EwaveAttributeBundle::class => ['all' => true]
+    ];
 ```
 
 #### Step 4: Configure the bundle in application

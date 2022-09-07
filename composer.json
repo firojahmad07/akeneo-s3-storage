@@ -1,6 +1,6 @@
 {
     "name": "ewave/attribute-bundle",
-    "version": "3.2.1",
+    "version": "6.0.0",
     "type": "symfony-bundle",
     "description": "Ewave Attribute Bundle",
     "authors": [
@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "php": ">=7.2.0",
+        "php": ">=8.0.0",
         "ewave/core-bundle": "dev-version_6.0 | dev-develop | ^3.4.0",
         "ewave/custom-events-bundle": "dev-us/MAU-427 | dev-develop | ^3.1.0"
     },

@@ -20,7 +20,6 @@
    template
  ) {
    return BaseField.extend({
-		template: _.template(template),
 		attributeProperties: attributeProperties,
 		events: {
 			'change input': 'updateModel',
@@ -34,7 +33,7 @@
 			this.updateformData();
 			this.getTemplateContext().then(
 				function (templateContext) {
-					this.$el.html(this.template({ 
+					this.$el.html(this.containerTemplate({ 
 						__:__, 
 						attributeProperties: this.attributeProperties, 
 						formdata: this.getFormData() 
