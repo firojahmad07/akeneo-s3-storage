@@ -21,7 +21,7 @@
  ) {
    return BaseField.extend({
 		attributeProperties: attributeProperties,
-     	template: _.template(template),
+		template: _.template(template),
 		events: {
 			'change input': 'updateModel',
 			'change select': 'updateModel',
@@ -103,4 +103,3 @@
 		},
 	});
  });
- 

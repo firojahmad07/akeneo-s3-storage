@@ -63,6 +63,132 @@ class AttributeUpdater extends BaseAttributeUpdater
     protected function validateDataType($field, $data)
     {
         $this->addCustomFieldsInProperties();
+        if (in_array($field, ['labels', 'available_locales', 'allowed_extensions', 'guidelines'])) {
+            if (!is_array($data)) {
+                throw InvalidPropertyTypeException::arrayExpected($field, static::class, $data);
+            }
+
+            foreach ($this->filterReadOnlyFields($data) as $key => $value) {
+                if (null !== $value && !is_scalar($value)) {
+                    throw InvalidPropertyTypeException::validArrayStructureExpected(
+                        $field,
+                        sprintf('one of the "%s" values is not a scalar', $field),
+                        static::class,
+                        $data
+                    );
+                }
+            }
+        } elseif (in_array(
+            $field,
+            array_merge([
+                'code',
+                'type',
+                'group',
+                'unique',
+                'useable_as_grid_filter',
+                'metric_family',
+                'default_metric_unit',
+                'reference_data_name',
+                'max_characters',
+                'validation_rule',
+                'validation_regexp',
+                'wysiwyg_enabled',
+                'number_min',
+                'number_max',
+                'decimals_allowed',
+                'negative_allowed',
+                'date_min',
+                'date_max',
+                'max_file_size',
+                'minimum_input_length',
+                'sort_order',
+                'localizable',
+                'scopable',
+                'required',
+            ], $this->properties)
+        )) {
+            if (null !== $data && !is_scalar($data)) {
+                throw InvalidPropertyTypeException::scalarExpected($field, static::class, $data);
+            }
+        } elseif ('table_configuration' === $field) {
+            if (!is_array($data)) {
+                throw InvalidPropertyTypeException::arrayExpected($field, static::class, $data);
+            }
+        } else {
+            throw UnknownPropertyException::unknownProperty($field);
+        }
+    }
+
+    /**
+     * @param AttributeInterface $attribute
+     * @param string             $field
+     * @param mixed              $data
+     *
+     * @throws InvalidPropertyException
+     * @throws UnknownPropertyException
+     */
+    protected function setData(AttributeInterface $attribute, $field, $data)
+    {
+        switch ($field) {
+            case 'type':
+                $this->setType($attribute, $data);
+                break;
+            case 'labels':
+                $this->translatableUpdater->update($attribute, $data);
+                break;
+            case 'group':
+                $this->setGroup($attribute, $data);
+                break;
+            case 'available_locales':
+                $this->setAvailableLocales($attribute, $field, $data);
+                break;
+            case 'date_min':
+                $this->validateDateFormat('date_min', $data);
+                $date = $this->getDate($data);
+                $attribute->setDateMin($date);
+                break;
+            case 'date_max':
+                $this->validateDateFormat('date_max', $data);
+                $date = $this->getDate($data);
+                $attribute->setDateMax($date);
+                break;
+            case 'allowed_extensions':
+                $attribute->setAllowedExtensions(implode(',', $data));
+                break;
+            case 'guidelines':
+                foreach ($data as $localeCode => $localeGuidelines) {
+                    if (null === $localeGuidelines || '' === $localeGuidelines) {
+                        $attribute->removeGuidelines($localeCode);
+                    } else {
+                        $attribute->addGuidelines($localeCode, $localeGuidelines);
+                    }
+                }
+                break;
+            case 'table_configuration':
+                $attribute->setRawTableConfiguration($data);
+                break;
+            default:
+                if (in_array($field, $this->properties)) {
+                    $attribute->setProperty($field, $data);
+                } else {
+                    $this->setValue($attribute, $field, $data);
+                }
+        }
+    }
+
+    
+    /**
+     * @param $dataToFilter
+     * 
+     * @return array
+     */
+    private function filterReadOnlyFields(array $dataToFilter) : array
+    {
+        $readOnlyFields = ['group_labels'];
+
+        return array_filter($dataToFilter, function ($key) use ($readOnlyFields) {
+            return !in_array($key, $readOnlyFields);
+        }, ARRAY_FILTER_USE_KEY);
         parent::validateDataType($field, $data);
     }
 }
