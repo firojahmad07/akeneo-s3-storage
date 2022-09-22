@@ -52,6 +52,46 @@ class AttributeUpdater extends BaseAttributeUpdater
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function update($attribute, array $data, array $options = [])
+    {
+        $this->addCustomFieldsInProperties();
+        if (!$attribute instanceof AttributeInterface) {
+            throw InvalidObjectException::objectExpected(
+                ClassUtils::getClass($attribute),
+                AttributeInterface::class
+            );
+        }
+        $formattedData = $this->getFormattedData($data);
+        foreach ($formattedData as $field => $value) {
+            $this->validateDataType($field, $value);
+            $this->setData($attribute, $field, $value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get formatted data
+     * 
+     * @param array $formattedData
+     * @return array
+     */
+    public function getFormattedData(array $data)
+    {
+        foreach ($data as $field => $value) {
+            if (!in_array($field, $this->properties)) {
+                continue;
+            }
+            
+            $data[$field] = is_array($value) ? json_encode($value) : $value;
+        }
+
+        return $data;
+    }
+
+    /**
      * Validate the data type of a field.
      *
      * @param string $field
@@ -62,7 +102,6 @@ class AttributeUpdater extends BaseAttributeUpdater
      */
     protected function validateDataType($field, $data)
     {
-        $this->addCustomFieldsInProperties();
         if (in_array($field, ['labels', 'available_locales', 'allowed_extensions', 'guidelines'])) {
             if (!is_array($data)) {
                 throw InvalidPropertyTypeException::arrayExpected($field, static::class, $data);

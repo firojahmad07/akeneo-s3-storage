@@ -78,6 +78,7 @@ parameters:
             - 'akeneo_reference_entity'
         default: 'number'
         config:
+            isMultiple: false # if you to make this attribute as multi-select just make it true.
             fieldName: feature_type_value
             label: ewave_attribute.entity.attribute.property.feature_type_value.label
             choices:

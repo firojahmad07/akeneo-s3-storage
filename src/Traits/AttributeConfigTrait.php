@@ -11,13 +11,24 @@ trait AttributeConfigTrait
      */
     public function addCustomFieldsInProperties()
     {
-        $propertyConfiguration  = $this->getAttributeProperties(self::EWAVE_ATTRIBUTE_BUNDLE, self::EWAVE_ATTRIBUTE_BUNDLE_RESOURCE);
+        $propertyConfiguration  = $this->getPropertyConfiguration();
         $customProperties       = [];
         if (!empty($propertyConfiguration)) {
             foreach($propertyConfiguration as $configuration) {
-                array_push($this->properties, $configuration['config']['fieldName']);
+                if(in_array($configuration['config']['fieldName'], $this->properties)) {
+                    continue;
+                }
+                $this->properties[] = $configuration['config']['fieldName'];
             }
         }
+    }
+
+    /**
+     * Get Property configuration
+     */
+    public function getPropertyConfiguration()
+    {
+        return $this->getAttributeProperties(self::EWAVE_ATTRIBUTE_BUNDLE, self::EWAVE_ATTRIBUTE_BUNDLE_RESOURCE);
     }
 
     /**
@@ -36,11 +47,27 @@ trait AttributeConfigTrait
             $path,
             'attribute_properties.json'
         );
-        $fileContent = [];
+        $fileContents = [];
         if (file_exists($filePath)) {
-            $fileContent = json_decode(file_get_contents($filePath), true);
+            $fileContents = json_decode(file_get_contents($filePath), true);
         }
-        
-        return $fileContent;
+        $formattedContent = $this->getFormattedContent($fileContents);
+
+        return $formattedContent;
    }
+
+   /**
+    * Get formatted contents
+    * @param array $fileContent
+    * @return array $fileContent
+    */
+    public function getFormattedContent(array $fileContents) 
+    {
+        $formattedData = [];
+        foreach($fileContents as $fileContent) {
+            $formattedData[$fileContent['config']['fieldName']] = $fileContent;
+        }
+
+        return $formattedData;
+    }
 }

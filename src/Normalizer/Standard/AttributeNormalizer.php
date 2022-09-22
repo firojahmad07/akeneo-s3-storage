@@ -49,11 +49,22 @@ class AttributeNormalizer extends BaseAttributeNormalizer
     public function normalize($attribute, $format = null, array $context = [])
     {
         $this->addCustomFieldsInProperties();
-        $normalizedProperties = [];    
+        $normalizedProperties = [];
+        $propertyConfiguration = $this->getPropertyConfiguration();
+        
         foreach ($this->properties as $property) {
-            $normalizedProperties[$property] = $attribute->getProperty($property);
+            if (isset($propertyConfiguration[$property])) {
+                $propertyType = $propertyConfiguration[$property]['propertyType'];
+                $propertyValue = $attribute->getProperty($property);
+                $isJson = $propertyConfiguration[$property]['config']['isMultiple'] ?? false;
+                $propertyValue = $isJson ? json_decode($propertyValue) : $propertyValue;
+                
+            } else {
+                $propertyValue = $attribute->getProperty($property);
+            }
+            $normalizedProperties[$property] = $propertyValue;
         }
-
+        
         $normalizedAttribute = [
             'code'                   => $attribute->getCode(),
             'type'                   => $attribute->getType(),
