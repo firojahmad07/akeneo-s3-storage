@@ -51,11 +51,13 @@ class AttributeNormalizer extends BaseAttributeNormalizer
         $this->addCustomFieldsInProperties();
         $normalizedProperties = [];
         $propertyConfiguration = $this->getPropertyConfiguration();
+        
         foreach ($this->properties as $property) {
             if (isset($propertyConfiguration[$property])) {
                 $propertyType = $propertyConfiguration[$property]['propertyType'];
                 $propertyValue = $attribute->getProperty($property);                
-                $propertyValue = key_exists('isMultiple', $propertyConfiguration[$property]['config']) ? ( true == $propertyConfiguration[$property]['config']['isMultiple']) ?  json_decode($propertyValue) : $propertyValue : $propertyValue;               
+                $isMultiple = key_exists('isMultiple', $propertyConfiguration[$property]['config']) ? true : false;
+                $propertyValue = ($isMultiple && true == $propertyConfiguration[$property]['config']['isMultiple']) ?  json_decode($propertyValue) : $propertyValue;     
                 
             } else {
                 $propertyValue = $attribute->getProperty($property);

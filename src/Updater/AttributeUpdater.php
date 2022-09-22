@@ -80,8 +80,8 @@ class AttributeUpdater extends BaseAttributeUpdater
      */
     public function getFormattedData(array $data)
     {
-        foreach($data as $field => $value) {
-            if(!in_array($field, $this->properties)) {
+        foreach ($data as $field => $value) {
+            if (!in_array($field, $this->properties)) {
                 continue;
             }
             
