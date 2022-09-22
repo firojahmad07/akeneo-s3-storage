@@ -55,9 +55,9 @@ class AttributeNormalizer extends BaseAttributeNormalizer
         foreach ($this->properties as $property) {
             if (isset($propertyConfiguration[$property])) {
                 $propertyType = $propertyConfiguration[$property]['propertyType'];
-                $propertyValue = $attribute->getProperty($property);                
-                $isMultiple = key_exists('isMultiple', $propertyConfiguration[$property]['config']) ? true : false;
-                $propertyValue = ($isMultiple && true == $propertyConfiguration[$property]['config']['isMultiple']) ?  json_decode($propertyValue) : $propertyValue;     
+                $propertyValue = $attribute->getProperty($property);
+                $isJson = $propertyConfiguration[$property]['config']['isMultiple'] ?? false;
+                $propertyValue = $isJson ? json_decode($propertyValue) : $propertyValue;
                 
             } else {
                 $propertyValue = $attribute->getProperty($property);
