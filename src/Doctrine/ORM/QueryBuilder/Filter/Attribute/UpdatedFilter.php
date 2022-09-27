@@ -16,6 +16,7 @@ use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\QueryBuilder;
 use Ewave\Bundle\CoreBundle\Doctrine\ORM\QueryBuilder\Filter\AbstractFilter;
 use Ewave\Bundle\CoreBundle\Helper\DatetimeHelper;
+use Ewave\Bundle\VersioningConnectorBundle\QueryBuilder\Filter\Helper\FilterHelper;
 
 /**
  * Class UpdatedFilter
@@ -126,7 +127,7 @@ class UpdatedFilter extends AbstractFilter
                 FieldFilterHelper::checkDateTime(
                     $field,
                     $value,
-                    'Y-m-d H:i:s',
+                    FilterHelper::DATETIME_FROM_FORMAT,
                     'yyyy-mm-dd H:i:s',
                     static::class
                 );

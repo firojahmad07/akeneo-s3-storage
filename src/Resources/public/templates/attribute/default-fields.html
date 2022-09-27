@@ -1,0 +1,30 @@
+<div class="AknFieldContainer">
+    <div class="AknFieldContainer-header">
+        <label class="AknFieldContainer-label control-label" for="pim_enrich_form_is_localized_read_only">
+        <%- __('ewave_attribute.entity.attribute.property.is_localized_read_only.label') %>
+        </label>
+    </div>
+    <div class="AknFieldContainer-inputContainer">
+        <div class="switch switch-small" data-on-label="Yes" data-off-label="No">
+            <input id="pim_enrich_form_is_localized_read_only" type="checkbox" name="is_localized_read_only"
+            >
+        </div>
+    </div>
+</div>
+<div class="AknFieldContainer">
+    <div class="AknFieldContainer-header">
+        <label class="AknFieldContainer-label control-label" for="pim_enrich_form_read_only_locales">
+        <%- __('ewave_attribute.entity.attribute.property.read_only_locales.label') %>
+        </label>
+    </div>
+    <div class="AknFieldContainer-inputContainer">
+        <select name="read_only_locales" class="select2-container  select2" multiple>
+            <option value=""><%- _.__('Select Attribute') %></option>                          
+            <% _.each(locales, function(locale) { %>
+                    <option value="<%- locale.code %>" <% if( _.contains([], locale.code)) { %> selected <% } %>>
+                        <%- locale.label %>
+                    </option>
+            <% }); %>
+        </select> 
+    </div>
+</div>
