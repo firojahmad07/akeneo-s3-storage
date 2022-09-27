@@ -35,11 +35,11 @@ define([
 				.then(
 					function (locales) {
 						var formData = this.getFormData();
-						console.log('formData : ', formData, locales);
 						this.$el.html(
 							this.template({
-								isEditable: false,
+								isEditable: this.isEditable(),
 								__: __,
+								readOnlyLocales: this.getReadOnlyLocales(),
 								formData: formData,
 								locales: locales,
 								availableLocales: [],
@@ -47,6 +47,7 @@ define([
 						);
 						this.postRender();
 						this.renderExtensions();
+						this.delegateEvents();
 					}.bind(this)
 				);
 
@@ -79,8 +80,8 @@ define([
 	   	},
 
 		/**
-			* {@inheritdoc}
-			*/
+		 * {@inheritdoc}
+		 */
 		postRender: function () {
 				this.$('.select2').select2();
 				this.$('.switch').bootstrapSwitch();
@@ -89,8 +90,15 @@ define([
 		/**
 		* {@inheritdoc}
 		*/
-		getFieldValue: function (field) {
-			return this.getFormData()[this.config.fieldName];
+		isEditable: function () {
+			return this.getFormData()['is_localized_read_only'] ?? false;
+		},
+
+		/**
+		* {@inheritdoc}
+		*/
+		getReadOnlyLocales: function () {
+			return this.getFormData()['read_only_locales'] ?? [];
 		},
    });
 });
