@@ -37,8 +37,16 @@ Add to config/bundles.php:
         Ewave\Bundle\AttributeBundle\EwaveAttributeBundle::class => ['all' => true]
     ];
 ```
+#### Step 4: Register the routes in application
 
-#### Step 4: Configure the bundle in application
+Add to config/routes/ewave_attribute_bundle.yml
+
+```
+ ewave_attribute_bundle:
+    resource: "@EwaveAttributeBundle/Resources/config/routing.yml"
+```
+
+#### Step 5: Configure the bundle in application
 
 Configure the required properties in project side configs as in the following example:
 This configuration you can add  {bundlePath}/Resource/config/ewave/AttributeProperty/parameters.yml.
