@@ -14,7 +14,6 @@ extensions:
         config:
             label:          ewave_attribute.form.job_instance.tab.content.data.type.title
             tooltip:        ewave_attribute.form.job_instance.tab.content.data.type.help
-            options:        '%ewave_attribute.attribute_export.attribute_types.entity.choices%'
             operators:
                 - ALL
                 - "IN"
