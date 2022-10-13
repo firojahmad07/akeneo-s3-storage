@@ -1,4 +1,12 @@
 config:
+    config:
+        pim/fetcher-registry:
+            fetchers:
+                attribute-list:
+                    module: pim/base-fetcher
+                    options:
+                        urls:
+                            list: ewave_attribute_rest_list
     paths:
         # JS modules
         ewave-attribute/job/export/entity/edit/content/data:                      ewaveattribute/js/job/export/entity/edit/content/data
