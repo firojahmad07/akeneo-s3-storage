@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class AttributeController
 {
-
     /**
      * @var array
      */
