@@ -68,6 +68,7 @@ define([
 				   val = true;
 			   } else{
 				   val = false;
+				   data['read_only_locales'] = [];
 			   }    
 		   } else {
 			   val = $(event.target).val();
