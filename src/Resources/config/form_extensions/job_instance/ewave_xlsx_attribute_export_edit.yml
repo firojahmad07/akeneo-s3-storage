@@ -221,6 +221,7 @@ extensions:
         parent:     ewave-attribute-job-instance-xlsx-attribute-export-edit-content
         targetZone: data-filters
         config:
+            sectionTitle: ewave_attribute.form.job_instance.tab.content.data.title
             filters:
                 -
                     field: group
