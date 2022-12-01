@@ -5,6 +5,6 @@ services:
         arguments:
             - '@pim_catalog.normalizer.standard.translation'
             - '@pim_catalog.normalizer.standard.datetime'
-            - ['auto_option_sorting', 'default_value']
+            - ['auto_option_sorting', 'is_read_only', 'default_value']
         tags:
             - { name: pim_standard_format_serializer.normalizer, priority: 90 }
