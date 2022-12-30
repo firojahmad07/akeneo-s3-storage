@@ -6,6 +6,7 @@
 The bundles which have to be installed and configured before continuing:
 
 1. `ewave/core-bundle:^6.0.0`
+2. `ewave/custom-events-bundle:^6.0.0`
 
 #### Step 1: Add VCS repositories to the `composer.json`
 
@@ -23,7 +24,7 @@ The bundles which have to be installed and configured before continuing:
 #### Step 2: Download and install the bundle
 
 ```bash
-composer require ewave/attribute-bundle:^3
+composer require ewave/attribute-bundle:^6
 ```
 
 #### Step 3: Register the bundle in application
