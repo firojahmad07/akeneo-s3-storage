@@ -5,7 +5,8 @@
 #### Step 0: Install dependencies
 The bundles which have to be installed and configured before continuing:
 
-1. `ewave/core-bundle:^3.4.0`
+1. `ewave/core-bundle:^6.0.0`
+2. `ewave/custom-events-bundle:^6.0.0`
 
 #### Step 1: Add VCS repositories to the `composer.json`
 
@@ -23,184 +24,77 @@ The bundles which have to be installed and configured before continuing:
 #### Step 2: Download and install the bundle
 
 ```bash
-composer require ewave/attribute-bundle:^3
+composer require ewave/attribute-bundle:^6
 ```
 
 #### Step 3: Register the bundle in application
 
-Update list of bundles in your `app/AppKernel.php` as in the following example:
+Add to config/bundles.php:
 
-```php
-<?php
-class AppKernel extends Kernel
-{
-    public function registerProjectBundles()
-    {
-        return [
-            //...
-            new Ewave\Bundle\AttributeBundle\EwaveAttributeBundle()
-            //...
-        ];
-    }
-}
+```
+  return [
+        // Add your bundles here with the associated env.
+        // Ex:
+        Ewave\Bundle\AttributeBundle\EwaveAttributeBundle::class => ['all' => true]
+    ];
+```
+#### Step 4: Register the routes in application
+
+Add to config/routes/ewave_attribute_bundle.yml
+
+```
+ ewave_attribute_bundle:
+    resource: "@EwaveAttributeBundle/Resources/config/routing.yml"
 ```
 
-#### Step 4: Configure the bundle in application
+#### Step 5: Configure the bundle in application
 
 Configure the required properties in project side configs as in the following example:
-This adds the boolean property to all attributes. This one will be displayed on all attribute pages before attribute specific section.
+This configuration you can add  {bundlePath}/Resource/config/ewave/AttributeProperty/parameters.yml.
  
 ```yaml
 parameters:
     ...
+    parameters:
     ewave_attribute.property_config.is_similar_product_comparison:
-        propertyCode: is_similar_product_comparison
         propertyType: boolean
         attributeTypes:
             - 'pim_catalog_date'
             - 'pim_catalog_file'
             - 'pim_catalog_identifier'
             - 'pim_catalog_image'
-            - 'pim_catalog_metric'
-            - 'pim_catalog_multiselect'
-            - 'pim_catalog_number'
-            - 'pim_catalog_price_collection'
-            - 'pim_catalog_simpleselect'
-            - 'pim_catalog_text'
-            - 'pim_catalog_textarea'
-            - 'pim_catalog_boolean'
-            - 'pim_assets_collection'
-            - 'pim_reference_data_multiselect'
-            - 'pim_reference_data_simpleselect'
-            - 'akeneo_reference_entity_collection'
-            - 'akeneo_reference_entity'
-        default: false
-        formExtensions:
-            -
-                module: pim/form/common/fields/boolean
-                parents:
-                    - 'pim-attribute-form-date'
-                    - 'pim-attribute-form-file'
-                    - 'pim-attribute-form-identifier'
-                    - 'pim-attribute-form-image'
-                    - 'pim-attribute-form-metric-edit'
-                    - 'pim-attribute-form-select'
-                    - 'pim-attribute-form-number'
-                    - 'pim-attribute-form-price'
-                    - 'pim-attribute-form-text'
-                    - 'pim-attribute-form-textarea'
-                    - 'pim-attribute-form-boolean'
-                    - 'pim-attribute-form-assets-collection'
-                    - 'pim-attribute-form-ref-data-multi'
-                    - 'pim-attribute-form-ref-data-simple'
-                    - 'pim-attribute-form-reference-entity'
-                targetZone: content
-                position:   92
-                config:
-                    fieldName: is_similar_product_comparison
-                    label:     ewave_attribute.entity.attribute.property.is_similar_product_comparison.label
-                    required:  false
+        default: true
+        config:
+            fieldName: is_similar_product_comparison
+            label: ewave_attribute.entity.attribute.property.is_similar_product_comparison.label
 
-    ewave_attribute.property_config.feature_type_value:
-        propertyCode: feature_type_value
-        propertyType: select
-        attributeTypes:
-            - 'pim_catalog_date'
-            - 'pim_catalog_file'
-            - 'pim_catalog_identifier'
-            - 'pim_catalog_image'
-            - 'pim_catalog_metric'
-            - 'pim_catalog_multiselect'
-            - 'pim_catalog_number'
-            - 'pim_catalog_price_collection'
-            - 'pim_catalog_simpleselect'
-            - 'pim_catalog_text'
-            - 'pim_catalog_textarea'
-            - 'pim_catalog_boolean'
-            - 'pim_assets_collection'
-            - 'pim_reference_data_multiselect'
-            - 'pim_reference_data_simpleselect'
-            - 'akeneo_reference_entity_collection'
-            - 'akeneo_reference_entity'
-        default: number #This is the default value. You need to specify one option from choices: number,string,date, valuelist or or leave blank 
-        formExtensions:
-            -
-                module: pim/form/common/fields/select
-                parents:
-                    - 'pim-attribute-form-date'
-                    - 'pim-attribute-form-file'
-                    - 'pim-attribute-form-identifier'
-                    - 'pim-attribute-form-image'
-                    - 'pim-attribute-form-metric-edit'
-                    - 'pim-attribute-form-select'
-                    - 'pim-attribute-form-number'
-                    - 'pim-attribute-form-price'
-                    - 'pim-attribute-form-text'
-                    - 'pim-attribute-form-textarea'
-                    - 'pim-attribute-form-boolean'
-                    - 'pim-attribute-form-assets-collection'
-                    - 'pim-attribute-form-ref-data-multi'
-                    - 'pim-attribute-form-ref-data-simple'
-                    - 'pim-attribute-form-reference-entity'
-                targetZone: content
-                position:  94
-                config:
-                    fieldName: feature_type_value
-                    label: ewave_attribute.entity.attribute.property.feature_type_value.label
-                    required: false
-                    choices:
-                        number: ewave_attribute.entity.attribute.property.feature_type_value.choices.number
-                        string: ewave_attribute.entity.attribute.property.feature_type_value.choices.string
-                        date: ewave_attribute.entity.attribute.property.feature_type_value.choices.date
-                        valuelist: ewave_attribute.entity.attribute.property.feature_type_value.choices.valuelist
-
-    ewave_attribute.property_config.feature_type_value_text:
-        propertyCode: feature_type_value_text
+    ewave_attribute.property_config.is_similar_product_test:
         propertyType: text
         attributeTypes:
             - 'pim_catalog_date'
-            - 'pim_catalog_file'
-            - 'pim_catalog_identifier'
             - 'pim_catalog_image'
-            - 'pim_catalog_metric'
-            - 'pim_catalog_multiselect'
-            - 'pim_catalog_number'
-            - 'pim_catalog_price_collection'
-            - 'pim_catalog_simpleselect'
-            - 'pim_catalog_text'
-            - 'pim_catalog_textarea'
-            - 'pim_catalog_boolean'
-            - 'pim_assets_collection'
-            - 'pim_reference_data_multiselect'
-            - 'pim_reference_data_simpleselect'
-            - 'akeneo_reference_entity_collection'
             - 'akeneo_reference_entity'
-        default: value example #This is the default value. Can be left blank
-        formExtensions:
-            -
-                module: pim/form/common/fields/text
-                parents:
-                    - 'pim-attribute-form-date'
-                    - 'pim-attribute-form-file'
-                    - 'pim-attribute-form-identifier'
-                    - 'pim-attribute-form-image'
-                    - 'pim-attribute-form-metric-edit'
-                    - 'pim-attribute-form-select'
-                    - 'pim-attribute-form-number'
-                    - 'pim-attribute-form-price'
-                    - 'pim-attribute-form-text'
-                    - 'pim-attribute-form-textarea'
-                    - 'pim-attribute-form-boolean'
-                    - 'pim-attribute-form-assets-collection'
-                    - 'pim-attribute-form-ref-data-multi'
-                    - 'pim-attribute-form-ref-data-simple'
-                    - 'pim-attribute-form-reference-entity'
-                targetZone: content
-                position:  96
-                config:
-                    fieldName: feature_type_value_text
-                    label: ewave_attribute.entity.attribute.property.feature_type_value_text.label
-                    required: false
+        default: ''
+        config:
+            fieldName: feature_type_value_text
+            label: ewave_attribute.entity.attribute.property.feature_type_value_text.label
+
+    ewave_attribute.property_config.is_similar_product_select:
+        propertyType: select
+        attributeTypes:
+            - 'pim_catalog_date'
+            - 'pim_catalog_image'
+            - 'akeneo_reference_entity'
+        default: 'number'
+        config:
+            isMultiple: false # if you to make this attribute as multi-select just make it true.
+            fieldName: feature_type_value
+            label: ewave_attribute.entity.attribute.property.feature_type_value.label
+            choices:
+                number: ewave_attribute.entity.attribute.property.feature_type_value.choices.number
+                string: ewave_attribute.entity.attribute.property.feature_type_value.choices.string
+                date: ewave_attribute.entity.attribute.property.feature_type_value.choices.date
+                valuelist: ewave_attribute.entity.attribute.property.feature_type_value.choices.valuelist
 
 services:
     ewave_attribute.property.property_config.is_similar_product_comparison:

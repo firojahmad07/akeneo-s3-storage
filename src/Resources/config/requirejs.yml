@@ -1,4 +1,12 @@
 config:
+    config:
+        pim/fetcher-registry:
+            fetchers:
+                attribute-list:
+                    module: pim/base-fetcher
+                    options:
+                        urls:
+                            list: ewave_attribute_rest_list
     paths:
         # JS modules
         ewave-attribute/job/export/entity/edit/content/data:                      ewaveattribute/js/job/export/entity/edit/content/data
@@ -8,7 +16,10 @@ config:
         ewave-attribute/job/export/entity/edit/content/data/attribute-label:      ewaveattribute/js/job/export/entity/edit/content/data/attribute-label
         ewave-attribute/form/common/fields/read-only-locales:                     ewaveattribute/js/form/common/fields/read-only-locales.ts
         pimee/product-edit-form/attributes/read-only-attribute:                   ewaveattribute/js/product/form/attributes/read-only-attribute
+        ewave-attribute/attribute/attribute-properties:                           ewaveattribute/js/attribute/attribute-properties
+        ewave-attribute/attribute/default-properties:                             ewaveattribute/js/attribute/default-properties
         ewave-attribute/attribute-edit-form/properties/is-localized-read-only:    ewaveattribute/js/attribute/form/properties/is-localized-read-only
+        ewave-attribute/attribute/properties:                                     ewaveattribute/js/attribute_properties.json
 
         # Templates
         ewave-attribute/template/job/export/entity/edit/content/data:             ewaveattribute/templates/job/export/entity/edit/content/data.html
@@ -16,3 +27,5 @@ config:
         ewave-attribute/template/job/export/entity/edit/content/data/select:      ewaveattribute/templates/job/export/entity/edit/content/data/select.html
 
         ewave-attribute/template/attribute/form/edit/property-container:          ewaveattribute/templates/attribute/form/edit/property-container.html
+        ewave-attribute/template/attribute/fields:                                ewaveattribute/templates/attribute/fields.html
+        ewave-attribute/template/attribute/default-fields:                        ewaveattribute/templates/attribute/default-fields.html

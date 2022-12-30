@@ -3,182 +3,129 @@ declare(strict_types=1);
 
 namespace Ewave\Bundle\AttributeBundle\DependencyInjection\Compiler;
 
-use Ewave\Bundle\AttributeBundle\Property\PropertyConfig;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Ewave\Bundle\CategoryBundle\Helper\CategoryPropertyHelper;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class CreatePropertyFormExtensionsPass
  *
- * @package Ewave\Bundle\AttributeBundle\DependencyInjection\Compiler
+ * @package Ewave\Bundle\CategoryBundle\DependencyInjection\Compiler
  */
 class CreatePropertyFormExtensionsPass implements CompilerPassInterface
 {
-    private const FORM_EXTENSIONS = 'formExtensions';
-
-    private const FORM_EXTENSION_MODULE = 'module';
-    private const FORM_EXTENSION_PARENT = 'parent';
-    private const FORM_EXTENSION_PARENTS = 'parents';
-    private const FORM_EXTENSION_TARGET_ZONE = 'targetZone';
-    private const FORM_EXTENSION_POSITION = 'position';
-
-    private const FORM_EXTENSION_CONFIG = 'config';
-
-    private const FORM_CONFIG_LABEL = 'label';
-    private const FORM_CONFIG_REQUIRED = 'required';
-    private const FORM_CONFIG_FIELD_NAME = 'fieldName';
-    private const FORM_CONFIG_TEMPLATE = 'template';
-
-    private const SERVICE_ID_EXTENSION_PROVIDER = 'pim_enrich.provider.form_extension';
-
-    private const TAG_PROPERTY_PROVIDER = 'ewave_attribute.provider.attribute_property';
-
-    private const FORM_EXTENSION_CONTAINER_TEMPLATE = [
-        self::FORM_EXTENSION_MODULE      => 'pim/common/simple-view',
-        self::FORM_EXTENSION_PARENT      => 'pim-attribute-edit-form-properties-common',
-        self::FORM_EXTENSION_POSITION    => 1000,
-        self::FORM_EXTENSION_TARGET_ZONE => 'content',
-        self::FORM_EXTENSION_CONFIG      => [
-            self::FORM_CONFIG_TEMPLATE      => 'ewave-attribute/template/attribute/form/edit/property-container',
-        ],
-    ];
-
-    private $formExtensionContainerCode = 'ewave-attribute-edit-form-property-form-container-%s-%03d';
-
-    private const FORM_EXTENSION_TEMPLATE = [
-        self::FORM_EXTENSION_MODULE      => null,
-        self::FORM_EXTENSION_PARENT      => 'pim-attribute-edit-form-properties-common',
-        self::FORM_EXTENSION_POSITION    => 1000,
-        self::FORM_EXTENSION_TARGET_ZONE => 'content',
-        self::FORM_EXTENSION_CONFIG      => [
-            self::FORM_CONFIG_LABEL      => null,
-            self::FORM_CONFIG_REQUIRED   => false,
-            self::FORM_CONFIG_FIELD_NAME => false,
-        ],
-    ];
-    private $formExtensionCode = 'ewave-attribute-edit-form-property-%s-%03d';
+    private const EWAVE_ATTRIBUTE_BUNDLE = "Ewave\Bundle\AttributeBundle\EwaveAttributeBundle";
 
     /**
      * @param ContainerBuilder $container
-     *
-     * @throws \Exception
      */
     public function process(ContainerBuilder $container)
     {
-        /**
-         * @var Definition $configServiceDef
-         */
-        if (!$container->has(self::SERVICE_ID_EXTENSION_PROVIDER)) {
-            throw new \InvalidArgumentException(
-                sprintf('Form extension provider service "%s" does not exist', self::SERVICE_ID_EXTENSION_PROVIDER)
-            );
-        }
+        $jsonFilePath = $this->getBundleWorkspacePathForJson(self::EWAVE_ATTRIBUTE_BUNDLE, "Resources/public/js");      
+        $filesystem         = new Filesystem();       
+        $propertyConfigs    = $this->listConfigFiles($container);
+        $propertyCollection = [];
+       
+        foreach ($propertyConfigs as $file) {
+            $config = Yaml::parse(file_get_contents($file->getPathName()));
+            if (isset($config['parameters']) && is_array($config['parameters'])) {
+                $extensionConfig = $config['parameters'];                
+                $extensionConfig = $this->getFormattedData($extensionConfig);
+                if(empty($extensionConfig)) {
+                    continue;
+                }
 
-        $extensionProviderDef = $container->getDefinition(self::SERVICE_ID_EXTENSION_PROVIDER);
-        $configServiceIds = $container->findTaggedServiceIds(self::TAG_PROPERTY_PROVIDER);
-        foreach ($configServiceIds as $configServiceId => $tags) {
-            $configServiceDef = $container->getDefinition($configServiceId);
-
-            $config = $configServiceDef->getArgument(0);
-            if (is_string($config)) {
-                $config = $container->getParameter(trim($config, '%'));
-            }
-
-            $config = $this->preparePropertyConfig($config);
-            $formExtensions = $config[self::FORM_EXTENSIONS] ?? [];
-            $configServiceDef->setArgument(0, $config);
-
-            foreach ($formExtensions as $extensionCode => $extension) {
-                $extensionProviderDef->addMethodCall('addExtension', [$extensionCode, $extension]);
+                if(!empty($propertyCollection)) {
+                    $propertyCollection = array_merge($propertyCollection, $extensionConfig);
+                } else {
+                    $propertyCollection = $extensionConfig;
+                }
             }
         }
+       
+        file_put_contents($jsonFilePath, json_encode($propertyCollection));
     }
 
     /**
-     * @param array $propertyConfig
-     *
+     * @param array $extensionConfigData
      * @return array
      */
-    private function preparePropertyConfig(array $propertyConfig = []): array
+
+    public function getFormattedData(array $extensionConfigData)
     {
-        $propertyCode = $propertyConfig[PropertyConfig::PROPERTY_CODE] ?? null;
-        $propertyType = $propertyConfig[PropertyConfig::PROPERTY_TYPE] ?? null;
-        if (!$propertyCode || !$propertyType) {
-            throw new \InvalidArgumentException(
-                'Unable to create property config. Property code and type must be filled'
-            );
+        $data = [];
+        foreach($extensionConfigData as $key => $values) {
+            $data[] = $values;
         }
 
-        $propertyConfig[PropertyConfig::REQUIRED] = $propertyConfig[PropertyConfig::REQUIRED] ?? false;
-
-        $newFormExtensions = [];
-        $extensions = $propertyConfig[self::FORM_EXTENSIONS];
-        $extensionIndex = 0;
-        foreach ($extensions as $extension) {
-            $formExtension = array_merge(self::FORM_EXTENSION_TEMPLATE, $extension);
-
-            $module = $formExtension[self::FORM_EXTENSION_MODULE] ?? null;
-            $formExtension[self::FORM_EXTENSION_MODULE] =
-                $module ?? sprintf('pim/form/common/fields/%s', $propertyType);
-
-            $formExtensionConfig = $formExtension[self::FORM_EXTENSION_CONFIG] ?? [];
-            if (!isset($formExtensionConfig[self::FORM_CONFIG_REQUIRED])) {
-                $formExtensionConfig[self::FORM_CONFIG_REQUIRED] = $propertyConfig[PropertyConfig::REQUIRED];
-            }
-
-            $label = $formExtensionConfig[self::FORM_CONFIG_LABEL] ?? false;
-            $formExtensionConfig[self::FORM_CONFIG_LABEL] =
-                $label ?? sprintf('ewave_attribute.entity.attribute.property.%s.label', $propertyCode);
-
-            $formExtension[self::FORM_EXTENSION_CONFIG] = $formExtensionConfig;
-
-            $parents = $formExtension[self::FORM_EXTENSION_PARENTS] ?? [];
-            if ($parents) {
-                $parents = array_filter(array_map('trim', $parents));
-                foreach ($parents as $parent) {
-                    $newFormExtensions = array_merge($newFormExtensions, $this->generateExtensions($formExtension, $propertyCode, $extensionIndex, $parent));
-                    $extensionIndex++;
-                }
-            } else {
-                $newFormExtensions = array_merge($newFormExtensions, $this->generateExtensions($formExtension, $propertyCode, $extensionIndex));
-                $extensionIndex++;
-            }
-        }
-
-        $propertyConfig[self::FORM_EXTENSIONS] = $newFormExtensions;
-
-        return $propertyConfig;
+        return $data;
     }
 
-    private function generateExtensions(array $formExtension, $propertyCode, int $extensionIndex, $parent = null) {
+    /**
+     * Get all the form configuration files in the Resources/config/ewave/CategoryProperty directories
+     *
+     * @param ContainerBuilder $container
+     *
+     * @return \SplFileInfo[]
+     */
+    protected function listConfigFiles(ContainerBuilder $container)
+    {
+        $files = [];
 
-        $formExtensions = [];
-
-        if (!$parent) {
-            $parent = $formExtension[self::FORM_EXTENSION_PARENT];
-        }
-        $extensionCode = sprintf($this->formExtensionCode, $propertyCode, $extensionIndex);
-        if ($parent === 'pim-attribute-edit-form-properties-common') {
-            $formExtensions[$extensionCode] = $formExtension;
-        } else {
-            //create container for property fields
-            $containerExtensionCode = sprintf($this->formExtensionContainerCode, $propertyCode, $extensionIndex);
-            $containerFormExtension = self::FORM_EXTENSION_CONTAINER_TEMPLATE;
-            if ($parent) {
-                $containerFormExtension[self::FORM_EXTENSION_PARENT] = $parent;
-            }
-            $containerFormExtension[self::FORM_EXTENSION_POSITION] = $formExtension[self::FORM_EXTENSION_POSITION];
-            $containerFormExtension[self::FORM_EXTENSION_TARGET_ZONE] = $formExtension[self::FORM_EXTENSION_TARGET_ZONE];
-            $formExtensions[$containerExtensionCode] = $containerFormExtension;
-
-            $formExtension[self::FORM_EXTENSION_PARENT] = $containerExtensionCode;
-            $formExtension[self::FORM_EXTENSION_POSITION] = 100;
-            $formExtension[self::FORM_EXTENSION_TARGET_ZONE] = 'content';
-
-            $formExtensions[$extensionCode] = $formExtension;
+        foreach ($container->getParameter('kernel.bundles') as $bundle) {
+            $files = array_merge($files, $this->getConfigurationFiles($bundle, 'Resources/config/ewave/AttributeProperty/'));
         }
 
-        return $formExtensions;
+        return $files;
+    }
+
+    /** 
+     * Get configuration files for dynamic form
+     * 
+     * @param string $bundle
+     * @param string $path
+     * 
+     * @return array
+     * 
+     */
+    private function getConfigurationFiles(string $bundle, string $path): array
+    {
+        $files = [];
+        $reflection = new \ReflectionClass($bundle);
+        $directory = sprintf(
+            '%s/%s/%s',
+            dirname($reflection->getFilename()),
+            $path,
+            'parameters'
+        );
+        $file = $directory . '.yml';
+        if (is_file($file)) {
+            $files[] = new \SplFileInfo($file);
+        }
+        sort($files);
+
+        return $files;
+    }
+ 
+    /**
+     * Get Bundle workspace path
+     * 
+     * @param string $bundle
+     * @param string $path
+     * 
+     * @return string
+     */   
+    private function getBundleWorkspacePathForJson(string $bundle, string $path): string
+    {
+        $reflection = new \ReflectionClass($bundle);
+        return sprintf(
+            '%s/%s/%s',
+            dirname($reflection->getFilename()),
+            $path,
+            'attribute_properties.json'
+        );
     }
 }

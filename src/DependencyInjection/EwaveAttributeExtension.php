@@ -26,16 +26,19 @@ class EwaveAttributeExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
         $loader->load('array_converters.yml');
+        $loader->load('controllers.yml');
         $loader->load('event_subscribers.yml');
         $loader->load('form_providers.yml');
         $loader->load('job_constraints.yml');
         $loader->load('job_defaults.yml');
         $loader->load('jobs.yml');
+        $loader->load('normalizers.yml');        
         $loader->load('parameters.yml');
         $loader->load('providers.yml');
         $loader->load('query_builders.yml');
         $loader->load('readers.yml');
         $loader->load('steps.yml');
+        $loader->load('updaters.yml');
         $loader->load('validators.yml');
     }
 }

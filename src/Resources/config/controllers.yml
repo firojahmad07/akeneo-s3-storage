@@ -1,0 +1,6 @@
+services:
+    ewave_attribute_bundle.controller.rest.attribute:
+        class: Ewave\Bundle\AttributeBundle\Controller\InternalApi\AttributeController
+        public: true
+        arguments:
+            - '%ewave_attribute.attribute_export.attribute_types.entity.choices%'

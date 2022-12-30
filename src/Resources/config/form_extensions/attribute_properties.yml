@@ -1,0 +1,20 @@
+extensions:
+    ewave-attribute-edit-default-properties-code:
+        module: ewave-attribute/attribute/default-properties
+        parent: pim-attribute-edit-form-properties-common
+        targetZone: content
+        position: 100
+        config:
+            fieldName: default
+            label: ewave.attribute_bundle.entity.default_property
+            readOnly: false
+
+    ewave-attribute-edit-custom-properties-code:
+        module: ewave-attribute/attribute/attribute-properties
+        parent: pim-attribute-edit-form-properties-common
+        targetZone: content
+        position: 200
+        config:
+            fieldName: settings
+            label: ewave.attribute_bundle.entity.attribute.property
+            readOnly: false

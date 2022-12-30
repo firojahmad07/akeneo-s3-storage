@@ -1,0 +1,5 @@
+### Internal API
+ewave_attribute_rest_list:
+    path: /list-attributes
+    defaults: { _controller: ewave_attribute_bundle.controller.rest.attribute:listAttributesAction }
+    methods: [GET]

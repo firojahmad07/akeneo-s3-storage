@@ -21,3 +21,6 @@
 * Bug fixing:
     * [#397363](https://tp.ewave.com/397363) -- [385215][340035] [Project: TRU] Blank option displayed after switching on 'Enable localized read only' first time
 
+## 6.0.0
+* New features:
+    * [TAU-91](https://ewave.atlassian.net/browse/TAU-91) -- [Project: TRU] Transfer ewave/attribute-bundle

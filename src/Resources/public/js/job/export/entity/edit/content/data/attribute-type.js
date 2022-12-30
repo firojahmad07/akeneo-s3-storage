@@ -4,18 +4,21 @@ define([
     'underscore',
     'oro/translator',
     'pim/filter/attribute/select',
+    'pim/fetcher-registry',
     'ewave-attribute/template/job/export/entity/edit/content/data/select',
     'jquery.select2'
 ], function (
     _,
     __,
     BaseFilter,
+    FetcherRegistry,
     template
 ) {
     return BaseFilter.extend({
         shortname: 'type',
         template: _.template(template),
         choicePromise: null,
+        attributeList: [],
         events: {
             'change [name="filter-value"], [name="filter-operator"]': 'updateState'
         },
@@ -33,11 +36,16 @@ define([
          * {@inheritdoc}
          */
         configure: function () {
-            this.listenTo(this.getRoot(), 'pim_enrich:form:entity:pre_update', function (data) {
-                _.defaults(data, {field: this.getCode()});
-            }.bind(this));
+            return $.when(
+                FetcherRegistry.getFetcher('attribute-list').fetchAll(),
+                this.listenTo(this.getRoot(), 'pim_enrich:form:entity:pre_update', function (data) {
+                    _.defaults(data, {field: this.getCode()});
+                }.bind(this)),
 
-            return BaseFilter.prototype.configure.apply(this, arguments);
+                BaseFilter.prototype.configure.apply(this, arguments)
+            ).then(function (attributeList) {
+                this.attributeList = attributeList;
+            }.bind(this));
         },
 
         /**
@@ -112,7 +120,7 @@ define([
         },
 
         getValueChoices: function () {
-            return this.config.options;
+            return this.attributeList;
         },
 
         getValueSelect2Choices: function () {
