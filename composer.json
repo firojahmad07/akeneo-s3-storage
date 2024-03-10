@@ -1,21 +1,21 @@
 {
-    "name": "ewave/attribute-bundle",
-    "version": "6.0.0",
+    "name": "spygar/akeneo-s3-storage",
+    "version": "1.0.0",
     "type": "symfony-bundle",
-    "description": "Ewave Attribute Bundle",
+    "description": "Akeneo S3 Storage Bundle",
     "authors": [
         {
-            "name": "Ewave"
+            "name": "Spygar"
         }
     ],
     "require": {
-        "php": ">=8.0.0",
-        "ewave/core-bundle": "dev-develop | ^6.0.0",
-        "ewave/custom-events-bundle": "dev-develop | ^6.0.0"
+        "php": ">=8.1.0",
+        "aws/aws-sdk-php": "3.172.0",
+        "league/flysystem-aws-s3-v3": "1.0.6"
     },
     "autoload": {
         "psr-4": {
-            "Ewave\\Bundle\\AttributeBundle\\": "src/"
+            "Spygar\\Bundle\\AkeneoS3StorageBundle\\": "src/"
         }
     }
 }
