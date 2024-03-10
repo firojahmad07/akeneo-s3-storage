@@ -6,19 +6,22 @@
 
 ```json
 {
-  "repositories": [
-      {
-          "type": "vcs",
-          "url": "https://github.com/firojahmad07/akeneo-s3-storage.git"
-      }
-  ]
+    "require": {
+        "spygar/akeneo-s3-storage": "dev-master",
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/firojahmad07/akeneo-s3-storage.git"
+        }
+    ]
 }
 ```
 
 #### Step 2: Download and install the bundle
 
 ```bash
-    composer require ewave/attribute-bundle:^6
+   composer require spygar/akeneo-s3-storage:dev-master
 ```
 
 #### Step 3: Register the bundle in application
@@ -34,10 +37,10 @@ Add to config/bundles.php:
 ```
 #### Step 4: Register the routes in application
 
-Add to config/routes/ewave_attribute_bundle.yml
+Add to config/routes/spygar_akeneo_se_storage_bundle.yml
 
 ```
- ewave_attribute_bundle:
+ spygar_attribute_bundle:
     resource: "@SpygarAkeneoS3StorageBundle/Resources/config/routing.yml"
 ```
 
