@@ -1,5 +1,20 @@
-### Internal API
-ewave_attribute_rest_list:
-    path: /list-attributes
-    defaults: { _controller: ewave_attribute_bundle.controller.rest.attribute:listAttributesAction }
+akeneo_s3_storage_pim_enrich_media_rest_post:
+    path: '/media'
+    defaults: { _controller: akeneo_s3_storage.pim_enrich.controller.rest.media:postAction }
+    methods: [POST]
+
+
+akeneo_s3_storage_pim_enrich_media_show:
+    path: /show/{filename}/{filter}
+    defaults: { _controller: akeneo_s3_storage.pim_enrich.controller.file:showAction, filter: null }
+    methods: [GET]
+
+akeneo_s3_storage_pim_enrich_media_download:
+    path: /download/{filename}
+    defaults: { _controller: akeneo_s3_storage.pim_enrich.controller.file:downloadAction, filter: null }
+    methods: [GET]
+
+akeneo_s3_storage_pim_enrich_media_s3_url:
+    path: /s3/show/{filename}
+    defaults: { _controller: akeneo_s3_storage.pim_enrich.controller.file:s3MediaAction}
     methods: [GET]

@@ -1,0 +1,16 @@
+services:
+    spygar_file_storage.file_storage.file.file_storer:
+        class: Spygar\Bundle\AkeneoS3StorageBundle\FileStorage\File\FileStorer
+        arguments:
+            - '@akeneo_file_storage.file_storage.filesystem_provider'
+            - '@akeneo_file_storage.saver.file'
+            - '@akeneo_file_storage.file_storage.file_info_factory'
+            - '@spygar_s3_file_system'
+
+    spygar_s3_file_system:
+        class: Spygar\Bundle\AkeneoS3StorageBundle\FileStorage\S3FileSystem
+        arguments:
+            - '%env(AWS_S3_BUCKET_NAME)%'
+            - '%env(AWS_S3_REGION)%'
+            - '%env(AWS_S3_ACCESS_KEY)%'
+            - '%env(AWS_S3_ACCESS_SECRET)%'

@@ -1,8 +1,0 @@
-services:
-    # Readers
-    ewave_attribute.reader.database.attribute_reader:
-        class: '%ewave_core.reader.database.entity_reader.class%'
-        arguments:
-            - '@pim_catalog.repository.attribute'
-            - '@ewave_attribute.doctrine.query_builder.attribute.query_builder_adapter'
-            - '@pim_catalog.repository.cached_channel'

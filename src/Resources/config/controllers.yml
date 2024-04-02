@@ -1,6 +1,20 @@
 services:
-    ewave_attribute_bundle.controller.rest.attribute:
-        class: Ewave\Bundle\AttributeBundle\Controller\InternalApi\AttributeController
+    akeneo_s3_storage.pim_enrich.controller.rest.media:
         public: true
+        class: 'Spygar\Bundle\AkeneoS3StorageBundle\Controller\InternalApi\MediaController'
         arguments:
-            - '%ewave_attribute.attribute_export.attribute_types.entity.choices%'
+            - '@validator'
+            - '@akeneo_file_storage.file_storage.path_generator'
+            - '@spygar_file_storage.file_storage.file.file_storer'
+
+    akeneo_s3_storage.pim_enrich.controller.file:
+        public: true
+        class: 'Spygar\Bundle\AkeneoS3StorageBundle\Controller\FileController'
+        arguments:
+            - '@liip_imagine.controller'
+            - '@akeneo_file_storage.file_storage.filesystem_provider'
+            - '@akeneo_file_storage.repository.file_info'
+            - '@pim_enrich.guesser.file_type'
+            - '@pim_enrich.provider.default_image'
+            - '@spygar_s3_file_system'
+            - ['catalogStorage', 'categoryStorage']
