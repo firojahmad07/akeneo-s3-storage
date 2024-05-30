@@ -26,6 +26,6 @@ class SpygarAkeneoS3StorageExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('controllers.yml');
         $loader->load('file_storage.yml');
-        
+        $loader->load('commands.yml');        
     }
 }

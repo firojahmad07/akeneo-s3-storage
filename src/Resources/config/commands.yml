@@ -1,0 +1,11 @@
+services:
+    Spygar\Bundle\AkeneoS3StorageBundle\Command\RemoveUnusedS3FilesCommand:
+        arguments:
+            - '@spygar_s3_file_system'
+            - '@akeneo_file_storage.file_storage.filesystem_provider'
+            - '@akeneo_file_storage.repository.file_info'
+            - '@pim_catalog.repository.attribute'
+            - '@pim_catalog.query.product_query_builder_factory_for_reading_purpose'
+            - '@pim_catalog.query.product_model_query_builder_factory'
+        tags:
+            - { name: console.command }
