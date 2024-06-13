@@ -25,7 +25,8 @@ class S3FileSystem
         private $bucketName,
         private $region,
         private $accessKey,
-        private $accessSecret
+        private $accessSecret,
+        private $s3DefaultFolder
     ) {
         $this->client = new S3Client([
             'version' => 'latest',
@@ -45,7 +46,7 @@ class S3FileSystem
         $adapter = new AwsS3V3Adapter(
             $this->client,
             $this->bucketName,
-            '',
+            $this->s3DefaultFolder,
             new PortableVisibilityConverter(Visibility::PUBLIC)
         );
 
@@ -55,6 +56,6 @@ class S3FileSystem
     /** Get Public url for preview images */
     public function getS3FilePreviewURL($filename)
     {
-        return self::HTTPS . $this->bucketName .'.s3.'. $this->region . self::AWS . $filename;
+        return self::HTTPS . $this->bucketName .'.s3.'. $this->region . self::AWS .$this->s3DefaultFolder.'/'. $filename;
     }
 }

@@ -89,7 +89,7 @@ class RemoveUnusedS3FilesCommand extends Command
            $filesystemInstance->delete($unusedFileData['key']);
 
         }
-        $output->writeln('Removed Unsed Files from System and S3 Bucket:' . count($deleteDatabaseKey));
+        $output->writeln('Removed Unused Files from local system and S3 Bucket : ' . count($deleteDatabaseKey));
 
         $this->deleteFilesByKeys($deleteDatabaseKey);
 
